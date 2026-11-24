@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download UdaXamera v1.0.0.beta</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 28px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+    h1 { color: #ffffff; font-size: 24px; margin-bottom: 6px; }
+    .version {
+      display: inline-block;
+      background: #21262d;
+      border: 1px solid #30363d;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #58a6ff;
+      margin-bottom: 18px;
+    }
+    p { font-size: 14px; line-height: 1.5; color: #8b949e; margin-bottom: 20px; }
+    .step-btn {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      background-color: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      transition: 0.2s;
+    }
+    .step-btn:hover { background-color: #30363d; border-color: #8b949e; }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #30363d;
+      background-color: #0d1117;
+      color: #ffffff;
+      font-size: 14px;
+      text-align: center;
+    }
+    input:focus { outline: none; border-color: #58a6ff; }
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: #238636;
+      color: #ffffff;
+      transition: 0.2s;
+    }
+    button:hover { background-color: #2ea043; }
+    button:disabled { background-color: #21262d; color: #8b949e; cursor: not-allowed; }
+    #status { margin-top: 14px; font-size: 13px; min-height: 20px; }
+    .error { color: #f85149; }
+    .success { color: #3fb950; }
+    #downloadBox { display: none; margin-top: 18px; padding-top: 18px; border-top: 1px solid #30363d; }
+    .download-btn {
+      display: block;
+      padding: 14px;
+      border-radius: 8px;
+      background-color: #1f6feb;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    .download-btn:hover { background-color: #388bfd; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>UdaXamera</h1>
+  <div class="version">v1.0.0.beta • Android APK (15.7 MB)</div>
+  <p>Untuk membuka tautan unduhan aplikasi, silakan dukung pengembang dengan menyelesaikan 2 langkah berikut:</p>
+
+  <a href="https://github.com/uda-arif" target="_blank" class="step-btn">1. Follow @uda-arif di GitHub</a>
+  <a href="https://github.com/uda-arif/UdaXamera" target="_blank" class="step-btn">2. Beri Star ⭐ pada Repo UdaXamera</a>
+
+  <input type="text" id="usernameInput" placeholder="Masukkan username GitHub kamu...">
+  <button id="verifyBtn" onclick="cekSyarat()">Verifikasi & Buka Download</button>
+
+  <div id="status"></div>
+
+  <div id="downloadBox">
+    <a href="https://github.com/uda-arif/UdaXamera/releases/download/v1.0.0.beta/UdaXamera.apk" class="download-btn">
+      ⬇️ Download UdaXamera.apk
+    </a>
+  </div>
+</div>
+
+<script>
+  const TARGET_USER = "uda-arif";
+  const TARGET_REPO = "UdaXamera";
+
+  async function cekSyarat() {
+    const username = document.getElementById("usernameInput").value.trim();
+    const statusEl = document.getElementById("status");
+    const btn = document.getElementById("verifyBtn");
+    const downloadBox = document.getElementById("downloadBox");
+
+    if (!username) {
+      statusEl.innerHTML = '<span class="error">Silakan masukkan username GitHub kamu dulu.</span>';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = "Mengecek...";
+    statusEl.innerHTML = "Memeriksa status follow dan star...";
+    downloadBox.style.display = "none";
+
+    try {
+      // 1. Cek apakah user sudah follow uda-arif
+      const followRes = await fetch(`https://github.com{username}/following/${TARGET_USER}`);
+      const isFollowing = followRes.status === 204;
+
+      // 2. Cek apakah user sudah star repo UdaXamera
+      const starRes = await fetch(`https://github.com{username}/starred?per_page=100`);
+      if (!starRes.ok) throw new Error("Username tidak ditemukan.");
+      
+      const starredRepos = await starRes.json();
+      const isStarred = starredRepos.some(repo => repo.full_name.toLowerCase() === `${TARGET_USER}/${TARGET_REPO}`.toLowerCase());
+
+      if (isFollowing && isStarred) {
+        statusEl.innerHTML = '<span class="success">Terima kasih! Tautan unduhan berhasil dibuka.</span>';
+        downloadBox.style.display = "block";
+      } else if (!isFollowing && !isStarred) {
+        statusEl.innerHTML = '<span class="error">Kamu belum Follow akun dan belum memberi Star pada repo.</span>';
+      } else if (!isFollowing) {
+        statusEl.innerHTML = '<span class="error">Kamu sudah Star, tapi belum Follow @uda-arif.</span>';
+      } else {
+        statusEl.innerHTML = '<span class="error">Kamu sudah Follow, tapi belum memberi Star pada repo UdaXamera.</span>';
+      }
+    } catch (err) {
+      statusEl.innerHTML = '<span class="error">Username GitHub tidak valid atau batas pengecekan tercapai. Coba lagi sebentar.</span>';
+    } finally {
+      btn.disabled = false;
+      btn.innerText = "Verifikasi & Buka Download";
+    }
+  }
+</script>
+
+</body>
+</html>
