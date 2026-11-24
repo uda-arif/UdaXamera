@@ -178,7 +178,7 @@
       background: rgba(255, 255, 255, 0.08);
       color: var(--muted);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      cursor: not-allowed;
+      pointer-events: none;
     }
 
     .download-btn.unlocked {
@@ -186,7 +186,7 @@
       color: #ffffff;
       border-color: rgba(255, 255, 255, 0.35);
       box-shadow: 0 10px 28px rgba(0, 102, 204, 0.45);
-      cursor: pointer;
+      pointer-events: auto;
     }
 
     .download-btn.unlocked:hover {
@@ -250,23 +250,23 @@
     </div>
 
     <label class="confirm-box" for="confirmCheck">
-      <input type="checkbox" id="confirmCheck" disabled />
+      <input type="checkbox" id="confirmCheck" />
       <span>I have followed <strong>@uda-arif</strong> and starred the <strong>UdaXamera</strong> repository.</span>
     </label>
 
-    <button
-      type="button"
+    <a
       id="downloadBtn"
       class="download-btn"
-      disabled
+      href="https://github.com/uda-arif/UdaXamera/releases/download/V1.0.0/UdaXamera-Release1.apk"
     >
       🔒 Complete Step 1 &amp; 2 to Unlock Download
-    </button>
+    </a>
 
     <div class="footer">
       <span>Created by <strong>Arif Ferdian</strong></span>
       <span>
-        <a href="https://instagram.com/uda_arif" target="_blank" rel="noopener noreferrer">@uda_arif</a>
+        <a href="https://instagram.com/uda_arif" target="_blank" rel="noopener noreferrer">@uda_arif</a> ·
+        <a href="https://github.com/uda-arif/UdaXamera/releases" target="_blank" rel="noopener noreferrer">All Releases</a>
       </span>
     </div>
   </main>
@@ -277,20 +277,8 @@
     const confirmCheck = document.getElementById("confirmCheck");
     const downloadBtn = document.getElementById("downloadBtn");
 
-    // Encoded release asset path (decoded only after steps + confirmation are met)
-    const encodedApkPath = [
-      "aHR0cHM6Ly9naXRodWIuY29tL3VkYS1hcmlmL1VkYVhhbWVyYS9yZWxlYXNlcy9k",
-      "b3dubG9hZC9WMTAwL1VkYVhhbWVyYS1SZWxlYXNlMS5hcGs="
-    ].join("");
-
-    let followed = false;
-    let starred = false;
-
-    function getReleaseUrl() {
-      const tag = "V1.0.0";
-      const file = "UdaXamera-Release1.apk";
-      return "https://github.com/uda-arif/UdaXamera/releases/download/" + tag + "/" + file;
-    }
+    let followed = localStorage.getItem("udax_followed") === "1";
+    let starred = localStorage.getItem("udax_starred") === "1";
 
     function updateUI() {
       if (followed) {
@@ -304,16 +292,7 @@
         document.getElementById("starStatus").textContent = "Completed";
       }
 
-      const stepsReady = followed && starred;
-      confirmCheck.disabled = !stepsReady;
-      if (!stepsReady) {
-        confirmCheck.checked = false;
-      }
-
-      const canDownload = stepsReady && confirmCheck.checked;
-      downloadBtn.disabled = !canDownload;
-
-      if (canDownload) {
+      if (followed && starred && confirmCheck.checked) {
         downloadBtn.classList.add("unlocked");
         downloadBtn.textContent = "⬇ Download UdaXamera-Release1.apk";
       } else {
@@ -324,21 +303,17 @@
 
     followBtn.addEventListener("click", () => {
       followed = true;
+      localStorage.setItem("udax_followed", "1");
       updateUI();
     });
 
     starBtn.addEventListener("click", () => {
       starred = true;
+      localStorage.setItem("udax_starred", "1");
       updateUI();
     });
 
     confirmCheck.addEventListener("change", updateUI);
-
-    downloadBtn.addEventListener("click", () => {
-      if (!followed || !starred || !confirmCheck.checked) return;
-      window.open(getReleaseUrl(), "_blank", "noopener,noreferrer");
-    });
-
     updateUI();
   </script>
 </body>
