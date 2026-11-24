@@ -1,176 +1,254 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download UdaXamera v1.0.0.beta</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download UdaXamera — ZEISS Camera Engine for vivo X300 Pro</title>
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #0d1117;
-      color: #c9d1d9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+    :root {
+      --bg: #05070b;
+      --glass: rgba(14, 21, 36, 0.72);
+      --border: rgba(255, 255, 255, 0.16);
+      --zeiss-blue: #0066cc;
+      --zeiss-cyan: #38bdf8;
+      --emerald: #10b981;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
     }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(0, 102, 204, 0.25), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.16), transparent 45%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
     .card {
-      background-color: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 28px;
-      max-width: 420px;
       width: 100%;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-      text-align: center;
+      max-width: 480px;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 28px 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
     }
-    h1 { color: #ffffff; font-size: 24px; margin-bottom: 6px; }
-    .version {
-      display: inline-block;
-      background: #21262d;
-      border: 1px solid #30363d;
-      padding: 4px 10px;
-      border-radius: 20px;
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0, 102, 204, 0.22);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--zeiss-cyan);
       font-size: 12px;
-      color: #58a6ff;
-      margin-bottom: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
     }
-    p { font-size: 14px; line-height: 1.5; color: #8b949e; margin-bottom: 20px; }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      margin-bottom: 22px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
     .step-btn {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       width: 100%;
-      box-sizing: border-box;
-      padding: 12px;
-      margin-bottom: 10px;
-      border-radius: 8px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text);
       text-decoration: none;
+      font-size: 14px;
       font-weight: 600;
-      font-size: 14px;
-      background-color: #21262d;
-      color: #c9d1d9;
-      border: 1px solid #30363d;
-      transition: 0.2s;
-    }
-    .step-btn:hover { background-color: #30363d; border-color: #8b949e; }
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 12px;
-      margin-top: 10px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      border: 1px solid #30363d;
-      background-color: #0d1117;
-      color: #ffffff;
-      font-size: 14px;
-      text-align: center;
-    }
-    input:focus { outline: none; border-color: #58a6ff; }
-    button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      font-weight: 600;
-      font-size: 14px;
+      transition: all 0.2s ease;
       cursor: pointer;
-      background-color: #238636;
-      color: #ffffff;
-      transition: 0.2s;
     }
-    button:hover { background-color: #2ea043; }
-    button:disabled { background-color: #21262d; color: #8b949e; cursor: not-allowed; }
-    #status { margin-top: 14px; font-size: 13px; min-height: 20px; }
-    .error { color: #f85149; }
-    .success { color: #3fb950; }
-    #downloadBox { display: none; margin-top: 18px; padding-top: 18px; border-top: 1px solid #30363d; }
+
+    .step-btn:hover {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .step-btn.done {
+      background: rgba(16, 185, 129, 0.14);
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+
+    .step-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--zeiss-blue);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .step-btn.done .step-num {
+      background: var(--emerald);
+    }
+
+    .status-pill {
+      font-size: 12px;
+      color: var(--zeiss-cyan);
+    }
+
+    .step-btn.done .status-pill {
+      color: var(--emerald);
+    }
+
+    .confirm-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 18px;
+      font-size: 13px;
+      color: #cbd5e1;
+      cursor: pointer;
+    }
+
+    .confirm-box input {
+      margin-top: 2px;
+      accent-color: var(--zeiss-cyan);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
     .download-btn {
-      display: block;
-      padding: 14px;
-      border-radius: 8px;
-      background-color: #1f6feb;
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 15px 18px;
+      border-radius: 16px;
       font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      pointer-events: none;
     }
-    .download-btn:hover { background-color: #388bfd; }
+
+    .download-btn.unlocked {
+      background: linear-gradient(135deg, var(--zeiss-blue), #0284c7);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 10px 28px rgba(0, 102, 204, 0.45);
+      pointer-events: auto;
+    }
+
+    .download-btn.unlocked:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .footer {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer a {
+      color: var(--zeiss-cyan);
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
+  <main class="card">
+    <div class="badge">ZEISS Optical Color Engine · vivo X300 Pro</div>
+    <h1>UdaXamera APK</h1>
+    <p class="subtitle">
+      OpenGL ES 3.0 + 3D LUT (.cube) camera app with 35 film profiles, 2D Color Palette Pad, and 14 True WYSIWYG ZEISS watermarks. Complete the 2 quick steps below to unlock the download.
+    </p>
 
-<div class="card">
-  <h1>UdaXamera</h1>
-  <div class="version">v1.0.0.beta • Android APK (15.7 MB)</div>
-  <p>Untuk membuka tautan unduhan aplikasi, silakan dukung pengembang dengan menyelesaikan 2 langkah berikut:</p>
+    <div class="steps">
+      <a
+        id="followBtn"
+        class="step-btn"
+        href="https://github.com/uda-arif"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="step-left">
+          <span class="step-num" id="followNum">1</span>
+          <span>Follow <strong>@uda-arif</strong> on GitHub</span>
+        </span>
+        <span class="status-pill" id="followStatus">Open Profile →</span>
+      </a>
 
-  <a href="https://github.com/uda-arif" target="_blank" class="step-btn">1. Follow @uda-arif di GitHub</a>
-  <a href="https://github.com/uda-arif/UdaXamera" target="_blank" class="step-btn">2. Beri Star ⭐ pada Repo UdaXamera</a>
+      <a
+        id="starBtn"
+        class="step-btn"
+        href="https://github.com/uda-arif/UdaXamera"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="step-left">
+          <span class="step-num" id="starNum">2</span>
+          <span>Give a <strong>★ Star</strong> to UdaXamera</span>
+        </span>
+        <span class="status-pill" id="starStatus">Star Repo →</span>
+      </a>
+    </div>
 
-  <input type="text" id="usernameInput" placeholder="Masukkan username GitHub kamu...">
-  <button id="verifyBtn" onclick="cekSyarat()">Verifikasi & Buka Download</button>
-
-  <div id="status"></div>
-
-  <div id="downloadBox">
-    <a href="https://github.com/uda-arif/UdaXamera/releases/download/v1.0.0.beta/UdaXamera.apk" class="download-btn">
-      ⬇️ Download UdaXamera.apk
-    </a>
-  </div>
-</div>
-
-<script>
-  const TARGET_USER = "uda-arif";
-  const TARGET_REPO = "UdaXamera";
-
-  async function cekSyarat() {
-    const username = document.getElementById("usernameInput").value.trim();
-    const statusEl = document.getElementById("status");
-    const btn = document.getElementById("verifyBtn");
-    const downloadBox = document.getElementById("downloadBox");
-
-    if (!username) {
-      statusEl.innerHTML = '<span class="error">Silakan masukkan username GitHub kamu dulu.</span>';
-      return;
-    }
-
-    btn.disabled = true;
-    btn.innerText = "Mengecek...";
-    statusEl.innerHTML = "Memeriksa status follow dan star...";
-    downloadBox.style.display = "none";
-
-    try {
-      // 1. Cek apakah user sudah follow uda-arif
-      const followRes = await fetch(`https://github.com{username}/following/${TARGET_USER}`);
-      const isFollowing = followRes.status === 204;
-
-      // 2. Cek apakah user sudah star repo UdaXamera
-      const starRes = await fetch(`https://github.com{username}/starred?per_page=100`);
-      if (!starRes.ok) throw new Error("Username tidak ditemukan.");
-      
-      const starredRepos = await starRes.json();
-      const isStarred = starredRepos.some(repo => repo.full_name.toLowerCase() === `${TARGET_USER}/${TARGET_REPO}`.toLowerCase());
-
-      if (isFollowing && isStarred) {
-        statusEl.innerHTML = '<span class="success">Terima kasih! Tautan unduhan berhasil dibuka.</span>';
-        downloadBox.style.display = "block";
-      } else if (!isFollowing && !isStarred) {
-        statusEl.innerHTML = '<span class="error">Kamu belum Follow akun dan belum memberi Star pada repo.</span>';
-      } else if (!isFollowing) {
-        statusEl.innerHTML = '<span class="error">Kamu sudah Star, tapi belum Follow @uda-arif.</span>';
-      } else {
-        statusEl.innerHTML = '<span class="error">Kamu sudah Follow, tapi belum memberi Star pada repo UdaXamera.</span>';
-      }
-    } catch (err) {
-      statusEl.innerHTML = '<span class="error">Username GitHub tidak valid atau batas pengecekan tercapai. Coba lagi sebentar.</span>';
-    } finally {
-      btn.disabled = false;
-      btn.innerText = "Verifikasi & Buka Download";
-    }
-  }
-</script>
-
-</body>
-</html>
+    <label class="confirm-box" for="confirmCheck">
+      <input type="checkbox" id="confirmCheck" />
+      <span>I
